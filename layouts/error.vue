@@ -20,11 +20,6 @@
       <el-button>
         <nuxt-link to="/">На главную</nuxt-link>
       </el-button>
-
-
-      <div class="logo">
-        <a href="https://nuxtjs.org" target="_blank" rel="noopener">Nuxt.js</a>
-      </div>
     </div>
   </div>
 </template>

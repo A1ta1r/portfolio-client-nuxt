@@ -12,6 +12,7 @@ import { setContext, getLocation, getRouteData } from './utils'
 import { createStore } from './store.js'
 
 /* Plugins */
+import nuxt_plugin_moment_1e0aa15c from 'nuxt_plugin_moment_1e0aa15c' // Source: ./moment.js
 import nuxt_plugin_axios_7c5de7bc from 'nuxt_plugin_axios_7c5de7bc' // Source: ./axios.js
 import nuxt_plugin_elementui_8e12f326 from 'nuxt_plugin_elementui_8e12f326' // Source: ..\\plugins\\element-ui.js
 import nuxt_plugin_vuechartjs_90b5d148 from 'nuxt_plugin_vuechartjs_90b5d148' // Source: ..\\plugins\\vue-chartjs.js
@@ -153,6 +154,7 @@ async function createApp (ssrContext) {
 
   // Plugin execution
   
+  if (typeof nuxt_plugin_moment_1e0aa15c === 'function') await nuxt_plugin_moment_1e0aa15c(app.context, inject)
   if (typeof nuxt_plugin_axios_7c5de7bc === 'function') await nuxt_plugin_axios_7c5de7bc(app.context, inject)
   if (typeof nuxt_plugin_elementui_8e12f326 === 'function') await nuxt_plugin_elementui_8e12f326(app.context, inject)
   if (typeof nuxt_plugin_vuechartjs_90b5d148 === 'function') await nuxt_plugin_vuechartjs_90b5d148(app.context, inject)

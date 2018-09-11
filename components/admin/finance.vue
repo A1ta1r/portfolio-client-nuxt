@@ -4,7 +4,6 @@
 
 <script>
   import FinanceChart from "./financeChart";
-  import moment from 'moment';
 
   export default {
     name: "finance",
@@ -19,26 +18,25 @@
           }]
         },
         options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: "Доход, тыс. рублей"
+          },
           scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true
+            xAxes: [{
+              type: "time",
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Дата'
               }
             }],
-            xAxes: [{
-              time: {
-                unit: 'time',
-                displayFormats: {
-                  'millisecond': 'MM DD',
-                  'second': 'MM DD',
-                  'minute': 'MM DD',
-                  'hour': 'MM DD',
-                  'day': 'MM DD',
-                  'week': 'MM DD',
-                  'month': 'MM DD',
-                  'quarter': 'MM DD',
-                  'year': 'MM DD'
-                }
+            yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Доход, тыс. рублей'
               }
             }]
           }
@@ -47,7 +45,7 @@
     },
     methods: {
       newDate: function (days) {
-        return moment().add(days, 'd');
+        return this.$moment().add(days, 'd');
       }
     }
   }

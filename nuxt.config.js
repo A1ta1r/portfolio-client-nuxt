@@ -5,8 +5,8 @@ module.exports = {
   head: {
     title: 'Кредитный портфель',
     meta: [{
-        charset: 'utf-8'
-      },
+      charset: 'utf-8'
+    },
       {
         name: 'viewport',
         content: 'width=device-width, initial-scale=1'
@@ -51,8 +51,14 @@ module.exports = {
     }
   },
 
+  vendor: [
+    'element-ui',
+    'vue-chartjs.js'
+  ],
+
   modules: [
     '@nuxtjs/axios',
+    ['@nuxtjs/moment', ['ru']]
   ],
 
   /*
@@ -61,5 +67,8 @@ module.exports = {
   plugins: [
     'plugins/element-ui.js',
     'plugins/vue-chartjs.js'
+  ],
+  css: [
+    'element-ui/lib/theme-chalk/index.css'
   ]
 };

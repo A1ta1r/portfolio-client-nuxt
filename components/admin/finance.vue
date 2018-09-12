@@ -1,5 +1,5 @@
 <template>
-  <finance-chart :data="this.dataset" :options=this.options :height="100"></finance-chart>
+  <finance-chart class="Chart" :data="this.dataset" :options=this.options :height="100"></finance-chart>
 </template>
 
 <script>
@@ -11,11 +11,19 @@
     data() {
       return {
         dataset: {
-          labels: [this.newDate(-4), this.newDate(-3), this.newDate(2), this.newDate(3), this.newDate(4), this.newDate(5), this.newDate(6)],
+          labels: [this.newDate(-6), this.newDate(-4), this.newDate(-2), this.newDate(0), this.newDate(2), this.newDate(4), this.newDate(6)],
           datasets: [{
-            label: "My First dataset",
+            label: "Прибыль",
             data: [1, 3, 4, 2, 1, 4, 2],
-          }]
+            backgroundColor: [
+              'rgba(64, 158, 225,.5)',
+            ],
+            borderColor: [
+              'rgba(64, 158, 225,.8)',
+            ],
+            borderWidth: 3,
+            pointSize: 50,
+          }],
         },
         options: {
           responsive: true,
@@ -37,8 +45,12 @@
               scaleLabel: {
                 display: true,
                 labelString: 'Доход, тыс. рублей'
+              },
+              ticks: {
+                beginAtZero: true,
+                max: 5,
               }
-            }]
+            },]
           }
         }
       }

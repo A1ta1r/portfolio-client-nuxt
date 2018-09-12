@@ -62,3 +62,7 @@ typings/
 
 # Webstorm
 .idea
+
+# build
+.nuxt
+dist

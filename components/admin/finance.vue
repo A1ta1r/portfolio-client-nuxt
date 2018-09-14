@@ -109,14 +109,14 @@
           }]
         },
         incomeInfo: {
-          rawIncome: "3 701.88 ₽",
-          income: "2 461.50 ₽",
-          totalIncome: "45 746.32 ₽",
+          rawIncome: "3 701.88 руб",
+          income: "2 461.50 руб",
+          totalIncome: "45 746.32 руб",
           bestAds: "Деньгобанк"
         },
         expenseInfo: {
-          tax: "740.38 ₽ (НДС)",
-          insurance: "500 ₽ (Страховые взносы)"
+          tax: "740.38 руб (НДС)",
+          insurance: "500 руб (Страховые взносы)"
         }
       }
     },

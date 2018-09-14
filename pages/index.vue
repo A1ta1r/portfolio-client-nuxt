@@ -74,6 +74,9 @@ export default {
     return {
       tableData: Array(20).fill(item)
     };
+  },
+  created: function () {
+    this.$router.push('/secure/admin')
   }
-};
+}
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <label>Выбор даты</label>
     <el-date-picker
       v-model="dateRange"
       type="daterange"

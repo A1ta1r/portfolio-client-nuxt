@@ -11,6 +11,8 @@
           <p>Договор: {{scope.row.agreement}}</p>
           <p>Состояние: <span v-if="scope.row.enabled">Активен</span>
             <span v-else>Выключен</span></p>
+          <p>Доход за текущий месяц: {{scope.row.income}}</p>
+          <p>Кумулятивный доход: {{scope.row.totalIncome}}</p>
         </template>
       </el-table-column>
 
@@ -28,10 +30,11 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      layout="prev, pager, next"
-      :total="searchResult.length">
-    </el-pagination>
+    <!-- мир пока к этому не готов
+    <el-pagination-->
+      <!--layout="prev, pager, next"-->
+      <!--:total="searchResult.length">-->
+    <!--</el-pagination>-->
   </div>
 </template>
 
@@ -46,25 +49,33 @@
             id: 0,
             name: "Иван-банк",
             agreement: "Подписан",
-            enabled: true
+            enabled: true,
+            income: "1 423.58 ₽",
+            totalIncome: "20 535.44 ₽"
           },
           {
             id: 1,
             name: "Деньгобанк",
             agreement: "Подписан",
-            enabled: true
+            enabled: true,
+            income: "1 423.58 ₽",
+            totalIncome: "20 535.44 ₽"
           },
           {
             id: 2,
             name: "Просто чувак",
             agreement: "Подписан",
-            enabled: true
+            enabled: true,
+            income: "114.34 ₽",
+            totalIncome: "4 675.44 ₽"
           },
           {
             id: 3,
             name: "Аферисты",
             agreement: "Расторгнут",
-            enabled: false
+            enabled: false,
+            income: "0 ₽",
+            totalIncome: "0 ₽"
           }
         ],
         searchQuery: "",

@@ -39,9 +39,12 @@
 </template>
 
 <script>
-
+  import { mapState } from 'vuex'
   export default {
     name: "advertisers",
+    mounted () {
+      this.$store.dispatch('load_advertisers')
+    },
     data() {
       return {
         advertiserList: [
@@ -85,6 +88,7 @@
       };
     },
     computed: {
+      ...mapState(['advertisers']),
       searchResult: function () {
         if (this.searchQuery === undefined || this.searchQuery === "") {
           return this.advertiserList

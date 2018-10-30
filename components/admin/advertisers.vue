@@ -39,7 +39,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
+
   export default {
     name: "advertisers",
     mounted () {
@@ -47,40 +48,6 @@
     },
     data() {
       return {
-        advertiserList: [
-          {
-            id: 0,
-            name: "Иван-банк",
-            agreement: "Подписан",
-            enabled: true,
-            income: "1 423.58 ₽",
-            totalIncome: "20 535.44 ₽"
-          },
-          {
-            id: 1,
-            name: "Деньгобанк",
-            agreement: "Подписан",
-            enabled: true,
-            income: "1 423.58 ₽",
-            totalIncome: "20 535.44 ₽"
-          },
-          {
-            id: 2,
-            name: "Просто чувак",
-            agreement: "Подписан",
-            enabled: true,
-            income: "114.34 ₽",
-            totalIncome: "4 675.44 ₽"
-          },
-          {
-            id: 3,
-            name: "Аферисты",
-            agreement: "Расторгнут",
-            enabled: false,
-            income: "0 ₽",
-            totalIncome: "0 ₽"
-          }
-        ],
         searchQuery: "",
         prev: 0,
         next: 0,
@@ -91,9 +58,9 @@
       ...mapState(['advertisers']),
       searchResult: function () {
         if (this.searchQuery === undefined || this.searchQuery === "") {
-          return this.advertiserList
+          return this.advertisers
         }
-        return this.advertiserList.filter((advertiser) => {
+        return this.advertisers.filter((advertiser) => {
           const preparedQuery = this.searchQuery.toLowerCase().trim()
           const preparedName = advertiser.name.toLowerCase().trim()
           return preparedName.includes(preparedQuery) ||

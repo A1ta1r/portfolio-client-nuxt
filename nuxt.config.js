@@ -66,13 +66,7 @@ module.exports = {
   ** Axios
   */
   axios: {
-    proxy: true,
-    credentials: false,
     baseURL: 'https://loan-portfolio-api.herokuapp.com/'
-  },
-
-  proxy: {
-    '/api/': 'https://loan-portfolio-api.herokuapp.com/',
   },
 
   /*

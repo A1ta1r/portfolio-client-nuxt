@@ -7,8 +7,8 @@
     <el-table :data="searchResult" :default-sort="{order: 'ascending'}">
       <el-table-column type="expand">
         <template slot-scope="scope">
-          <p>Название: {{scope.row.name}}</p>
-          <p>Договор: {{scope.row.agreement}}</p>
+          <p>Название: {{scope.row.username}}</p>
+          <p>Договор: {{scope.row.email}}</p>
           <p>Состояние: <span v-if="scope.row.enabled">Активен</span>
             <span v-else>Выключен</span></p>
           <p>Доход за текущий месяц: {{scope.row.income}}</p>
@@ -18,14 +18,15 @@
 
       <el-table-column label="Идентификатор" prop="id" sortable></el-table-column>
 
-      <el-table-column label="Название" prop="name" sortable></el-table-column>
+      <el-table-column label="Название" prop="username" sortable></el-table-column>
 
-      <el-table-column label="Договор" prop="agreement" sortable></el-table-column>
-
-      <el-table-column label="Состояние" prop="enabled" sortable>
+      <el-table-column label="Договор" prop="email" sortable></el-table-column>
+      <el-table-column label="Родился" prop="createdAt" sortable></el-table-column>
+      <el-table-column label="Контакты" prop="contactInfo" sortable></el-table-column>
+      <el-table-column label="Состояние" prop="isActive" sortable>
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.enabled" active-color="#13ce66"></el-switch>
-          <span v-if="scope.row.enabled"> Активен</span>
+          <el-switch v-model="scope.row.isActive" active-color="#13ce66"></el-switch>
+          <span v-if="scope.row.isActive"> Активен</span>
           <span v-else> Выключен</span>
         </template>
       </el-table-column>
@@ -62,7 +63,7 @@
         }
         return this.advertisers.filter((advertiser) => {
           const preparedQuery = this.searchQuery.toLowerCase().trim()
-          const preparedName = advertiser.name.toLowerCase().trim()
+          const preparedName = advertiser.username.toLowerCase().trim()
           return preparedName.includes(preparedQuery) ||
             (advertiser.id.toString()).includes(preparedQuery)
         })

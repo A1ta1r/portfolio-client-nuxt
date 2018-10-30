@@ -1,5 +1,4 @@
 import Vuex from 'vuex'
-import axios from 'axios'
 
 const createStore = () => {
   return new Vuex.Store({
@@ -10,12 +9,9 @@ const createStore = () => {
       adv: []
     },
     actions: {
-      async load_advertisers ({ commit }) {
-        axios.get('https://loan-portfolio-api.herokuapp.com/advertisers/')
-          .then(result =>{
-            console.log('123123')
-            result.data.advertisers
-          })
+      load_advertisers ({ commit }) {
+        this.$axios.get('advertisers')
+          .then(result => result.data.advertisers)
           .then(advertisers => {
             console.log("23123213")
             commit('SET_ADVERTISERS', advertisers)
@@ -23,7 +19,7 @@ const createStore = () => {
       },
 
       load_banners ({ commit }) {
-        axios.get('https://loan-portfolio-api.herokuapp.com/...x3')
+        this.$axios.get('https://loan-portfolio-api.herokuapp.com/...x3')
           .then(result => result.data)
           .then(banners => {
             commit('SET_BANNERS', banners)
@@ -31,7 +27,7 @@ const createStore = () => {
       },
 
       load_banner_places ({ commit }) {
-        axios.get('https://loan-portfolio-api.herokuapp.com/...')
+        this.$axios.get('https://loan-portfolio-api.herokuapp.com/...')
           .then(result => result.data)
           .then(banner_places => {
             commit('SET_BANNER_PLACES', banner_places)
@@ -39,7 +35,7 @@ const createStore = () => {
       },
 
       load_adv ({ commit }) {
-        axios.get('https://loan-portfolio-api.herokuapp.com/health')
+        this.$axios.get('https://loan-portfolio-api.herokuapp.com/health')
           .then(result => result.data)
           .then(adv => {
             commit('SET_ADV', adv)

@@ -8,8 +8,8 @@
       <el-table-column type="expand">
         <template slot-scope="scope">
           <p>Название: {{scope.row.username}}</p>
-          <p>Договор: {{scope.row.email}}</p>
-          <p>Состояние: <span v-if="scope.row.enabled">Активен</span>
+          <p>Голубиная почта: {{scope.row.email}}</p>
+          <p>Состояние: <span v-if="scope.row.isActive">Активен</span>
             <span v-else>Выключен</span></p>
           <p>Доход за текущий месяц: {{scope.row.income}}</p>
           <p>Кумулятивный доход: {{scope.row.totalIncome}}</p>

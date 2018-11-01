@@ -48,12 +48,13 @@ module.exports = {
           exclude: /(node_modules)/
         });
       }
-    }
+    },
   },
 
   vendor: [
     'element-ui',
-    'vue-chartjs.js'
+    'vue-chartjs.js',
+    'axios'
   ],
 
   modules: [
@@ -62,13 +63,20 @@ module.exports = {
   ],
 
   /*
+  ** Axios
+  */
+  axios: {
+    baseURL: 'https://loan-portfolio-api.herokuapp.com/'
+  },
+
+  /*
    ** Configure plugins
    */
   plugins: [
     'plugins/element-ui.js',
-    'plugins/vue-chartjs.js'
+    'plugins/vue-chartjs.js',
   ],
   css: [
     'element-ui/lib/theme-chalk/index.css'
-  ]
+  ],
 };

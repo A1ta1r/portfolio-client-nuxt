@@ -6,16 +6,23 @@ const createStore = () => {
       advertisers: [],
       banners: [],
       banner_places: [],
-      adv: []
+      adv: [],
+      server_state: true,
     },
     actions: {
       load_advertisers ({ commit }) {
         this.$axios.get('advertisers')
           .then(result => result.data.advertisers)
           .then(advertisers => {
-            console.log("23123213")
             commit('SET_ADVERTISERS', advertisers)
           })
+      },
+
+      update_advertiser_status({commit}, el) {
+        let data = {
+          isActive: el.row.isActive,
+        };
+        this.$axios.put(`advertisers/${el.row.id}`, data);
       },
 
       load_banners ({ commit }) {
@@ -40,6 +47,13 @@ const createStore = () => {
           .then(adv => {
             commit('SET_ADV', adv)
           })
+      },
+
+      check_server ({ commit }) {
+        this.$axios.get('health')
+          .then(status => {
+            commit('SET_SERVER_STATUS', status.status)
+          })
       }
     },
     mutations: {
@@ -54,6 +68,9 @@ const createStore = () => {
       },
       SET_ADV (state, adv) {
         state.adv = adv
+      },
+      SET_SERVER_STATUS(state, status) {
+        state.server_state = status < 400;
       }
     }
   })

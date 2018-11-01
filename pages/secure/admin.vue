@@ -22,7 +22,9 @@
           <el-tab-pane><span slot="label" class="el-icon-document"> Рекламодатели</span>
             <advertisers></advertisers>
           </el-tab-pane>
-          <el-tab-pane><span slot="label" class="el-icon-setting"> Система</span><el-card>Система</el-card></el-tab-pane>
+          <el-tab-pane><span slot="label" class="el-icon-setting"> Система</span>
+          <system-activity></system-activity>
+          </el-tab-pane>
         </el-tabs>
       </el-main>
       <el-footer></el-footer>
@@ -33,9 +35,10 @@
 <script>
   import advertisers from "@/components/admin/advertisers.vue";
   import Finance from "../../components/admin/finance";
+  import systemActivity from "../../components/admin/systemActivity";
 
   export default {
-    components: {Finance, advertisers}
+    components: {Finance, advertisers, systemActivity}
   };
 </script>
 

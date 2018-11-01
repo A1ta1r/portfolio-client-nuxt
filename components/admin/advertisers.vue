@@ -25,7 +25,7 @@
       <el-table-column label="Контакты" prop="contactInfo" sortable></el-table-column>
       <el-table-column label="Состояние" prop="isActive" sortable>
         <template slot-scope="scope">
-          <el-switch v-model="scope.row.isActive" active-color="#13ce66"></el-switch>
+          <el-switch v-model="scope.row.isActive" @change="change_status(scope)" active-color="#13ce66"></el-switch>
           <span v-if="scope.row.isActive"> Активен</span>
           <span v-else> Выключен</span>
         </template>
@@ -54,6 +54,14 @@
         next: 0,
         pager: 0
       };
+    },
+    methods: {
+      change_status: function (el) {
+        let data = {
+          isActive: true
+        };
+        this.$store.dispatch(`update_advertiser_status`, el);
+      }
     },
     computed: {
       ...mapState(['advertisers']),

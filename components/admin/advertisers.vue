@@ -2,7 +2,27 @@
   <div>
     <div>
       <span ></span>
-    <el-input v-model="searchQuery" prefix-icon="el-icon-search" type="text" label="Поиск" placeholder="Поисковая строка"></el-input>
+
+      <el-row :gutter="20" type="flex" class="row-bg" justify="space-between">
+        <el-col ><div class="grid-content bg-purple">
+          <el-input v-model="searchQuery" prefix-icon="el-icon-search" type="text" label="Поиск" placeholder="Поисковая строка"></el-input>
+        </div>
+        </el-col>
+        <el-col ><div class="grid-content bg-purple">
+          <el-popover
+            placement="top"
+            width="160"
+            v-model="visible2">
+            <p style="text-align: left">Потом добавишь сейчас некогда нужно зарабатывать деньги на смм</p>
+            <div style="text-align: center; margin: 0">
+              <el-button size="mini" type="text" @click="visible2 = false">Лан</el-button>
+              <el-button type="primary" size="mini" @click="visible2 = false">Конечно</el-button>
+            </div>
+            <el-button slot="reference">Добавить рекламодателя</el-button>
+          </el-popover>
+        </div>
+        </el-col>
+      </el-row>
     </div>
     <el-table :data="searchResult" :default-sort="{order: 'ascending'}">
       <el-table-column type="expand">
@@ -21,7 +41,11 @@
       <el-table-column label="Название" prop="username" sortable></el-table-column>
 
       <el-table-column label="Договор" prop="email" sortable></el-table-column>
-      <el-table-column label="Родился" prop="createdAt" sortable></el-table-column>
+      <el-table-column label="Родился" prop="createdAt" sortable>
+        <template slot-scope="scope">
+          <span>{{formatDate(scope)}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="Контакты" prop="contactInfo" sortable></el-table-column>
       <el-table-column label="Состояние" prop="isActive" sortable>
         <template slot-scope="scope">
@@ -61,7 +85,12 @@
           isActive: true
         };
         this.$store.dispatch(`update_advertiser_status`, el);
-      }
+      },
+
+      formatDate: function(value) {
+        let a = new Date(value.row.createdAt);
+        return a.toLocaleDateString('ru');
+      },
     },
     computed: {
       ...mapState(['advertisers']),
@@ -76,6 +105,7 @@
             (advertiser.id.toString()).includes(preparedQuery)
         })
       },
+
       pageResult: function () {
 
         return this.searchResult()

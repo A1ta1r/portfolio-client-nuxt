@@ -11,7 +11,7 @@ const createStore = () => {
     },
     actions: {
       load_advertisers ({ commit }) {
-        this.$axios.get('advertisers')
+        this.$axios.get('partners')
           .then(result => result.data.advertisers)
           .then(advertisers => {
             commit('SET_ADVERTISERS', advertisers)
@@ -22,7 +22,8 @@ const createStore = () => {
         let data = {
           isActive: el.row.isActive,
         };
-        this.$axios.put(`advertisers/${el.row.id}`, data);
+        this.$axios.put(`partners/${el.row.id}`, data)
+          .then(response => {});
       },
 
       load_banners ({ commit }) {

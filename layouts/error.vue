@@ -17,9 +17,11 @@
         </p>
       </div>
 
-      <el-button>
-        <nuxt-link to="/">На главную</nuxt-link>
-      </el-button>
+        <nuxt-link to="/">
+          <el-button>
+            На главную
+          </el-button>
+        </nuxt-link>
     </div>
   </div>
 </template>

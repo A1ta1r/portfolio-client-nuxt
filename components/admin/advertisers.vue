@@ -1,30 +1,20 @@
 <template>
   <div>
     <div>
-      <span ></span>
-
       <el-row :gutter="20" type="flex" class="row-bg" justify="space-between">
         <el-col ><div class="grid-content bg-purple">
           <el-input v-model="searchQuery" prefix-icon="el-icon-search" type="text" label="Поиск" placeholder="Поисковая строка"></el-input>
         </div>
         </el-col>
         <el-col ><div class="grid-content bg-purple">
-          <el-popover
-            placement="top"
-            width="160"
-            v-model="visible2">
-            <p style="text-align: left">Потом добавишь сейчас некогда нужно зарабатывать деньги на смм</p>
-            <div style="text-align: center; margin: 0">
-              <el-button size="mini" type="text" @click="visible2 = false">Лан</el-button>
-              <el-button type="primary" size="mini" @click="visible2 = false">Конечно</el-button>
-            </div>
-            <el-button slot="reference">Добавить рекламодателя</el-button>
-          </el-popover>
+          <nuxt-link to="/addAdvertiser" >
+            <el-button class="el-icon-plus"> Добавить рекламодателя</el-button>
+          </nuxt-link>
         </div>
         </el-col>
       </el-row>
     </div>
-    <el-table :data="searchResult" :default-sort="{order: 'ascending'}">
+    <el-table :data="searchResult" :default-sort="{prop: 'id', order: 'ascending'}">
       <el-table-column type="expand">
         <template slot-scope="scope">
           <p>Название: {{scope.row.username}}</p>

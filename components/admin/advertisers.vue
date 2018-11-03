@@ -56,9 +56,9 @@
           </el-popover>
           <el-button-group>
 
-            <el-button v-popover:popover size="mini" class="el-icon-message" round></el-button>
+            <el-button v-popover:popover size="small" class="el-icon-message" round></el-button>
             <el-button
-              size="mini"
+              size="small"
               class="el-icon-edit" round></el-button>
             <el-popover
               ref="popover"
@@ -74,7 +74,7 @@
                            @click="delete_advertiser(scope)">Да</el-button>
               </div>
             </el-popover>
-            <el-button v-popover:popover size="mini" plain type="danger" class="el-icon-delete" @click="scope.row.show_del = true" round></el-button>
+            <el-button v-popover:popover size="small" plain type="danger" class="el-icon-delete" @click="scope.row.show_del = true" round></el-button>
           </el-button-group>
         </template>
       </el-table-column>

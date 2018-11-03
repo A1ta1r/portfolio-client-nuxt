@@ -30,8 +30,8 @@
 
       <el-table-column label="Название" prop="username" sortable></el-table-column>
 
-      <el-table-column label="Договор" prop="email" sortable></el-table-column>
-      <el-table-column label="Родился" prop="createdAt" sortable>
+      <el-table-column label="Почта" prop="email" sortable></el-table-column>
+      <el-table-column label="Регистрация" prop="createdAt" sortable>
         <template slot-scope="scope">
           <span>{{formatDate(scope)}}</span>
         </template>
@@ -45,22 +45,37 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="Удалить">
+        label="Операции">
         <template slot-scope="scope">
           <el-popover
+            ref="popover"
             placement="top"
-            width="160"
-            v-model="scope.row.show_del">
-            <p align="left">Удалить  {{scope.row.username}}?</p>
-            <div style="text-align: center">
-              <el-button size="mini" type="text" @click="scope.row.show_del = false">Не надо</el-button>
-              <el-button
-                         size="mini"
-                         type="primary"
-                         @click="delete_advertiser(scope)">Да</el-button>
-            </div>
-            <el-button size="mini" plain type="danger" class="el-icon-delete" slot="reference" @click="scope.row.show_del = true" ></el-button>
+            title="Извините"
+            trigger="click"
+            content="функция в разработке">
           </el-popover>
+          <el-button-group>
+
+            <el-button v-popover:popover size="mini" class="el-icon-message" round></el-button>
+            <el-button
+              size="mini"
+              class="el-icon-edit" round></el-button>
+            <el-popover
+              ref="popover"
+              trigger="click"
+              placement="top"
+              v-model="scope.row.show_del">
+              <p align="left">Удалить  {{scope.row.username}}?</p>
+              <div style="text-align: center">
+                <el-button size="mini" type="text" @click="scope.row.show_del = false">Не надо</el-button>
+                <el-button
+                           size="mini"
+                           type="primary"
+                           @click="delete_advertiser(scope)">Да</el-button>
+              </div>
+            </el-popover>
+            <el-button v-popover:popover size="mini" plain type="danger" class="el-icon-delete" @click="scope.row.show_del = true" round></el-button>
+          </el-button-group>
         </template>
       </el-table-column>
     </el-table>

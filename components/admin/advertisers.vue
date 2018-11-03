@@ -2,19 +2,23 @@
   <div>
     <div>
       <el-row :gutter="20" type="flex" class="row-bg" justify="space-between">
-        <el-col ><div class="grid-content bg-purple">
-          <el-input v-model="searchQuery" prefix-icon="el-icon-search" type="text" label="Поиск" placeholder="Поисковая строка"></el-input>
-        </div>
+        <el-col>
+          <div class="grid-content bg-purple">
+            <el-input v-model="searchQuery" prefix-icon="el-icon-search" type="text" label="Поиск"
+                      placeholder="Поисковая строка"></el-input>
+          </div>
         </el-col>
-        <el-col ><div class="grid-content bg-purple">
-          <nuxt-link to="/secure/advertiser/new" >
-            <el-button class="el-icon-plus"> Добавить рекламодателя</el-button>
-          </nuxt-link>
-        </div>
+        <el-col>
+          <div class="grid-content bg-purple">
+            <nuxt-link to="/secure/advertiser/new">
+              <el-button class="el-icon-plus"> Добавить рекламодателя</el-button>
+            </nuxt-link>
+          </div>
         </el-col>
       </el-row>
     </div>
-    <el-table element-loading-text="Загрузка..." v-loading="loading_show" :data="searchResult" :default-sort="{prop: 'id', order: 'ascending'}">
+    <el-table element-loading-text="Загрузка..." v-loading="loading_show" :data="searchResult"
+              :default-sort="{prop: 'id', order: 'ascending'}">
       <el-table-column type="expand">
         <template slot-scope="scope">
           <p>Название: {{scope.row.username}}</p>
@@ -59,19 +63,22 @@
             <el-button v-popover:popover size="small" class="el-icon-message" round></el-button>
             <el-button
               size="small"
-              class="el-icon-edit" round></el-button>
+              class="el-icon-edit"
+              @click="$router.push({name: 'secure-advertiser-edit-id', params: { id:scope.row.id }})" round>
+            </el-button>
             <el-popover
               ref="popover"
               trigger="click"
               placement="top"
               v-model="scope.row.show_del">
-              <p align="left">Удалить  {{scope.row.username}}?</p>
+              <p align="left">Удалить {{scope.row.username}}?</p>
               <div style="text-align: center">
                 <el-button size="mini" type="text" @click="scope.row.show_del = false">Не надо</el-button>
                 <el-button
-                           size="mini"
-                           type="primary"
-                           @click="delete_advertiser(scope)">Да</el-button>
+                  size="mini"
+                  type="primary"
+                  @click="delete_advertiser(scope)">Да
+                </el-button>
               </div>
             </el-popover>
             <el-button v-popover:popover size="small" plain type="danger" class="el-icon-delete" @click="scope.row.show_del = true" round></el-button>
@@ -81,22 +88,26 @@
     </el-table>
     <!-- мир пока к этому не готов
     <el-pagination-->
-      <!--layout="prev, pager, next"-->
-      <!--:total="searchResult.length">-->
+    <!--layout="prev, pager, next"-->
+    <!--:total="searchResult.length">-->
     <!--</el-pagination>-->
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import {mapState} from 'vuex';
 
   export default {
     name: "advertisers",
-    mounted () {
-      this.$store.dispatch('load_advertisers')
+    mounted() {
+      this.loading_show = true
+      this.$store.dispatch('load_advertisers').then(() => {
+        this.loading_show = false
+      })
     },
     data() {
       return {
+        loading_show: true,
         delete_advertiser_popover: false,
         searchQuery: "",
         prev: 0,
@@ -109,13 +120,13 @@
         this.$store.dispatch(`update_advertiser_status`, el);
       },
 
-      delete_advertiser: function(el) {
+      delete_advertiser: function (el) {
         this.$store.dispatch('delete_advertiser', el)
         this.advertisers.splice(this.advertisers.indexOf(el))
         el.row.show_del = false
       },
 
-      formatDate: function(value) {
+      formatDate: function (value) {
         let a = new Date(value.row.createdAt);
         return a.toLocaleDateString('ru');
       },
@@ -132,10 +143,6 @@
           return preparedName.includes(preparedQuery) ||
             (advertiser.id.toString()).includes(preparedQuery)
         })
-      },
-
-      loading_show: function () {
-        return this.advertisers.length < 1
       },
 
       pageResult: function () {

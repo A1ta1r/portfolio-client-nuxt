@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import advertisers from "@/components/admin/advertisers.vue";
+  import advertisers from "../../components/admin/advertisers";
   import Finance from "../../components/admin/finance";
   import systemActivity from "../../components/admin/systemActivity";
 

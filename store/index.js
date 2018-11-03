@@ -8,10 +8,11 @@ const createStore = () => {
       banner_places: [],
       adv: [],
       server_state: true,
+      singleAdvertiser: {}
     },
     actions: {
       load_advertisers ({ commit }) {
-        this.$axios.get('partners')
+        return this.$axios.get('partners')
           .then(result => result.data.advertisers)
           .then(advertisers => {
             commit('SET_ADVERTISERS', advertisers)
@@ -21,21 +22,34 @@ const createStore = () => {
         let data = {
           isActive: el.row.isActive,
         };
-        this.$axios.put(`partners/${el.row.id}`, data)
+        return this.$axios.put(`partners/${el.row.id}`, data)
           .then(response => {});
+      },
+
+      update_advertiser_total({commit}, advertiser) {
+        return this.$axios.put(`partners/${advertiser.id}`, advertiser)
+      },
+
+      get_advertiser({commit}, id) {
+        return this.$axios.get(`partners/${id}`)
+          .then(result => result.data.advertiser)
+          .then(advertiser => {
+            commit('SET_SINGLE_ADVERTISER', advertiser)
+          })
       },
 
       add_advertiser({commit}, advertiser) {
         return this.$axios.post('partners', advertiser)
+
       },
 
       delete_advertiser({commit}, advertiser) {
-        this.$axios.delete(`partners/${advertiser.row.id}`)
+        return this.$axios.delete(`partners/${advertiser.row.id}`)
           .then(this.load_advertisers)
       },
 
       load_banners ({ commit }) {
-        this.$axios.get('https://loan-portfolio-api.herokuapp.com/...x3')
+        return this.$axios.get('https://loan-portfolio-api.herokuapp.com/...x3')
           .then(result => result.data)
           .then(banners => {
             commit('SET_BANNERS', banners)
@@ -43,7 +57,7 @@ const createStore = () => {
       },
 
       load_banner_places ({ commit }) {
-        this.$axios.get('https://loan-portfolio-api.herokuapp.com/...')
+        return this.$axios.get('https://loan-portfolio-api.herokuapp.com/...')
           .then(result => result.data)
           .then(banner_places => {
             commit('SET_BANNER_PLACES', banner_places)
@@ -51,7 +65,7 @@ const createStore = () => {
       },
 
       load_adv ({ commit }) {
-        this.$axios.get('https://loan-portfolio-api.herokuapp.com/health')
+        return this.$axios.get('https://loan-portfolio-api.herokuapp.com/health')
           .then(result => result.data)
           .then(adv => {
             commit('SET_ADV', adv)
@@ -59,13 +73,16 @@ const createStore = () => {
       },
 
       check_server ({ commit }) {
-        this.$axios.get('health')
+        return this.$axios.get('health')
           .then(status => {
             commit('SET_SERVER_STATUS', status.status)
           })
       }
     },
     mutations: {
+      SET_SINGLE_ADVERTISER(state, advertiser) {
+        state.singleAdvertiser = advertiser;
+      },
       SET_ADVERTISERS (state, advertisers) {
         state.advertisers = advertisers
       },

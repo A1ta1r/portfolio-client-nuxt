@@ -27,7 +27,12 @@ const createStore = () => {
 
       add_advertiser({commit}, advertiser) {
         this.$axios.post('partners', advertiser)
-          // .then(this.load_advertisers)
+
+      },
+
+      delete_advertiser({commit}, advertiser) {
+        this.$axios.delete(`partners/${advertiser.row.id}`)
+          .then(this.load_advertisers)
       },
 
       load_banners ({ commit }) {

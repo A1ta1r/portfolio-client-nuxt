@@ -7,7 +7,7 @@
         </div>
         </el-col>
         <el-col ><div class="grid-content bg-purple">
-          <nuxt-link to="/addAdvertiser" >
+          <nuxt-link to="/secure/advertiser/new" >
             <el-button class="el-icon-plus"> Добавить рекламодателя</el-button>
           </nuxt-link>
         </div>
@@ -44,6 +44,25 @@
           <span v-else> Выключен</span>
         </template>
       </el-table-column>
+      <el-table-column
+        label="Удалить">
+        <template slot-scope="scope">
+          <el-popover
+            placement="top"
+            width="160"
+            v-model="scope.row.show_del">
+            <p align="left">Удалить  {{scope.row.username}}?</p>
+            <div style="text-align: center">
+              <el-button size="mini" type="text" @click="scope.row.show_del = false">Не надо</el-button>
+              <el-button
+                         size="mini"
+                         type="primary"
+                         @click="delete_advertiser(scope)">Да</el-button>
+            </div>
+            <el-button size="mini" plain type="danger" class="el-icon-delete" slot="reference" @click="scope.row.show_del = true" ></el-button>
+          </el-popover>
+        </template>
+      </el-table-column>
     </el-table>
     <!-- мир пока к этому не готов
     <el-pagination-->
@@ -63,6 +82,7 @@
     },
     data() {
       return {
+        delete_advertiser_popover: false,
         searchQuery: "",
         prev: 0,
         next: 0,
@@ -72,6 +92,12 @@
     methods: {
       change_status: function (el) {
         this.$store.dispatch(`update_advertiser_status`, el);
+      },
+
+      delete_advertiser: function(el) {
+        this.$store.dispatch('delete_advertiser', el)
+        this.advertisers.splice(this.advertisers.indexOf(el))
+        el.row.show_del = false
       },
 
       formatDate: function(value) {

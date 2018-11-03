@@ -45,7 +45,11 @@
         rules: {
           username: [
             { required: true, message: 'Пожалуйста, введите название нового рекламодателя', trigger: 'blur' },
-            { min: 3, message: 'Длинна имени должна быть больше 3 символов', trigger: 'blur' }
+            { min: 3, message: 'Длина имени должна быть больше 3 символов', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: 'Пожалуйста, введите пароль для рекламодателя', trigger: 'blur' },
+            { min: 3, message: 'Длина должна быть больше 3 символов', trigger: 'blur'}
           ],
           email: [
             { required: true, message: 'Пожалуйста, введите адрес электронной почты', trigger: 'change' },
@@ -59,8 +63,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$store.dispatch('add_advertiser', this.advertiser)
-            this.notify()
-            this.$router.back(1)
+              .then(this.notify())
+              .then(this.$router.back(1))
           } else {
             console.log('error submit!!');
             return false;

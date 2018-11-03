@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import advertiser from '../components/admin/formAddAdvertiser';
+  import advertiser from '../../../components/admin/formAddAdvertiser';
 
   export default {
     components : {

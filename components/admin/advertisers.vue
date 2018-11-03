@@ -51,16 +51,8 @@
       <el-table-column
         label="Операции">
         <template slot-scope="scope">
-          <el-popover
-            ref="popover"
-            placement="top"
-            title="Извините"
-            trigger="click"
-            content="функция в разработке">
-          </el-popover>
           <el-button-group>
-
-            <el-button v-popover:popover size="small" class="el-icon-message" round></el-button>
+            <el-button size="small" class="el-icon-message" @click="send_mail(scope)" round></el-button>
             <el-button
               size="small"
               class="el-icon-edit"
@@ -130,6 +122,11 @@
         let a = new Date(value.row.createdAt);
         return a.toLocaleDateString('ru');
       },
+      send_mail: function (value) {
+        let email = value.row.email
+        let win = window.open(`mailto: ${email}`)
+        if (win && win.open && !win.closed) win.close();
+      }
     },
     computed: {
       ...mapState(['advertisers']),

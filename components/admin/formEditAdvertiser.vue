@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <h1>Редактировать рекламодателя: <label v-text="advertiser.username"></label></h1>
+      <h1>Редактировать рекламодателя: <label v-text="initialUsername"></label></h1>
     </div>
     <el-form :model="advertiser" :rules="rules" ref="advertiser" label-width="120px" class="demo-ruleForm">
       <el-form-item label="Название" prop="username">

@@ -62,13 +62,13 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.notify()
             this.$store.dispatch('add_advertiser', this.advertiser)
-              .await(this.$router.back(1))
-
-          } else {
-            console.log('error submit!!');
-            return false;
+              .then(() => {
+                this.$router.back(1)
+                this.notify()
+              }).catch(() => {
+                this.notifyFail()
+            })
           }
         });
       },
@@ -79,9 +79,16 @@
         this.$router.push('/secure/admin')
       },
       notify() {
-        this.$notify({
+        this.$notify.success({
           title: `Рекламодатель ${this.advertiser.username} успешно добавлен`,
           message: `На адрес ${this.advertiser.email} будет выслано письмо с информацией для входа`,
+          position: 'bottom-right'
+        });
+      },
+      notifyFail() {
+        this.$notify.error({
+          title: `Рекламодатель ${this.advertiser.username} не был добавлен`,
+          message: `При добавлении рекламодателя произошла ошибка. Проверьте, что введенные данные верны`,
           position: 'bottom-right'
         });
       }

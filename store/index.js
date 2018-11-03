@@ -40,7 +40,6 @@ const createStore = () => {
 
       add_advertiser({commit}, advertiser) {
         return this.$axios.post('partners', advertiser)
-
       },
 
       delete_advertiser({commit}, advertiser) {

@@ -124,8 +124,7 @@
       },
       send_mail: function (value) {
         let email = value.row.email
-        let win = window.open(`mailto: ${email}`)
-        if (win && win.open && !win.closed) win.close();
+        window.open(`mailto: ${email}`)
       }
     },
     computed: {

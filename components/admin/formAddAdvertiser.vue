@@ -62,9 +62,10 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.notify()
             this.$store.dispatch('add_advertiser', this.advertiser)
-              .then(this.notify())
-              .then(this.$router.back(1))
+              .await(this.$router.back(1))
+
           } else {
             console.log('error submit!!');
             return false;

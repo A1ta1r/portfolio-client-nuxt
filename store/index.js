@@ -17,13 +17,17 @@ const createStore = () => {
             commit('SET_ADVERTISERS', advertisers)
           })
       },
-
       update_advertiser_status({commit}, el) {
         let data = {
           isActive: el.row.isActive,
         };
         this.$axios.put(`partners/${el.row.id}`, data)
           .then(response => {});
+      },
+
+      add_advertiser({commit}, advertiser) {
+        this.$axios.post('partners', advertiser)
+          // .then(this.load_advertisers)
       },
 
       load_banners ({ commit }) {

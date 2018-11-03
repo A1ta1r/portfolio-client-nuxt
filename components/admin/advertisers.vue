@@ -14,7 +14,7 @@
         </el-col>
       </el-row>
     </div>
-    <el-table :data="searchResult" :default-sort="{prop: 'id', order: 'ascending'}">
+    <el-table element-loading-text="Загрузка..." v-loading="loading_show" :data="searchResult" :default-sort="{prop: 'id', order: 'ascending'}">
       <el-table-column type="expand">
         <template slot-scope="scope">
           <p>Название: {{scope.row.username}}</p>
@@ -66,14 +66,11 @@
         searchQuery: "",
         prev: 0,
         next: 0,
-        pager: 0
+        pager: 0,
       };
     },
     methods: {
       change_status: function (el) {
-        let data = {
-          isActive: true
-        };
         this.$store.dispatch(`update_advertiser_status`, el);
       },
 
@@ -94,6 +91,10 @@
           return preparedName.includes(preparedQuery) ||
             (advertiser.id.toString()).includes(preparedQuery)
         })
+      },
+
+      loading_show: function () {
+        return this.advertisers.length < 1
       },
 
       pageResult: function () {

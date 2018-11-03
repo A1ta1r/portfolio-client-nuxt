@@ -1,54 +1,31 @@
 <template>
   <el-card class="box-card">
     <div slot="header" class="clearfix">
-      <h1>Новый рекламодатель: <label v-text="ruleForm.name"></label></h1>
+      <h1>Новый рекламодатель: <label v-text="advertiser.username"></label></h1>
     </div>
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-      <el-form-item label="Название" prop="name">
-        <el-input v-model="ruleForm.name"></el-input>
+    <el-form :model="advertiser" :rules="rules" ref="advertiser" label-width="120px" class="demo-ruleForm">
+      <el-form-item label="Название" prop="username">
+        <el-input v-model="advertiser.username"></el-input>
       </el-form-item>
-      <el-form-item label="Activity zone" prop="region">
-        <el-select v-model="ruleForm.region" placeholder="Activity zone">
-          <el-option label="Zone one" value="shanghai"></el-option>
-          <el-option label="Zone two" value="beijing"></el-option>
-        </el-select>
+      <el-form-item label="Логин (email)" prop="email">
+        <el-input v-model="advertiser.email"></el-input>
       </el-form-item>
-      <el-form-item label="Activity time" required>
-        <el-col :span="11">
-          <el-form-item prop="date1">
-            <el-date-picker type="date" placeholder="Pick a date" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col class="line" :span="2">-</el-col>
-        <el-col :span="11">
-          <el-form-item prop="date2">
-            <el-time-picker type="fixed-time" placeholder="Pick a time" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-          </el-form-item>
-        </el-col>
+      <el-form-item label="Пароль" prop="password">
+        <el-input v-model="advertiser.password"></el-input>
       </el-form-item>
-      <el-form-item label="Instant delivery" prop="delivery">
-        <el-switch v-model="ruleForm.delivery"></el-switch>
+      <el-form-item label="Включен" prop="isActive">
+        <el-switch v-model="advertiser.isActive" active-color="#13ce66"></el-switch>
       </el-form-item>
-      <el-form-item label="Activity type" prop="type">
-        <el-checkbox-group v-model="ruleForm.type">
-          <el-checkbox label="Online activities" name="type"></el-checkbox>
-          <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-          <el-checkbox label="Offline activities" name="type"></el-checkbox>
-          <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-        </el-checkbox-group>
+      <el-form-item label="Контактная информация" prop="contactInfo">
+        <el-input type="textarea" v-model="advertiser.contactInfo"></el-input>
       </el-form-item>
-      <el-form-item label="Resources" prop="resource">
-        <el-radio-group v-model="ruleForm.resource">
-          <el-radio label="Sponsorship"></el-radio>
-          <el-radio label="Venue"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form" prop="desc">
-        <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+      <el-form-item label="Заметки" prop="notes">
+        <el-input type="textarea" v-model="advertiser.notes"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submitForm('ruleForm')">Create</el-button>
-        <el-button @click="resetForm('ruleForm')">Reset</el-button>
+        <el-button type="primary" @click="submitForm('advertiser')">Добавить</el-button>
+        <el-button @click="resetForm('advertiser')">Сбросить</el-button>
+        <el-button @click="back">Назад</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -57,39 +34,23 @@
   export default {
     data() {
       return {
-        ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+        advertiser: {
+          email: '',
+          username: '',
+          password: '',
+          isActive: true,
+          contactInfo: '',
+          notes: '',
         },
         rules: {
-          name: [
-            { required: true, message: 'Please input Activity name', trigger: 'blur' },
-            { min: 3, message: 'Length should be 3 to 5', trigger: 'blur' }
+          username: [
+            { required: true, message: 'Пожалуйста, введите название нового рекламодателя', trigger: 'blur' },
+            { min: 3, message: 'Длинна имени должна быть больше 3 символов', trigger: 'blur' }
           ],
-          region: [
-            { required: true, message: 'Please select Activity zone', trigger: 'change' }
+          email: [
+            { required: true, message: 'Пожалуйста, введите адрес электронной почты', trigger: 'change' },
+            { type: 'email', message: 'Пожалуйста, введите корректный адрес электронной почты', trigger: 'blur'}
           ],
-          date1: [
-            { type: 'date', required: true, message: 'Please pick a date', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: 'Please pick a time', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: 'Please select at least one activity type', trigger: 'change' }
-          ],
-          resource: [
-            { required: true, message: 'Please select activity resource', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: 'Please input activity form', trigger: 'blur' }
-          ]
         }
       };
     },
@@ -97,7 +58,9 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.$store.dispatch('add_advertiser', this.advertiser)
+            this.notify()
+            this.$router.back(1)
           } else {
             console.log('error submit!!');
             return false;
@@ -106,6 +69,16 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      back() {
+        this.$router.push('/secure/admin')
+      },
+      notify() {
+        this.$notify({
+          title: `Рекламодатель ${this.advertiser.username} успешно добавлен`,
+          message: `На адрес ${this.advertiser.email} будет выслано письмо с информацией для входа`,
+          position: 'bottom-right'
+        });
       }
     }
   }

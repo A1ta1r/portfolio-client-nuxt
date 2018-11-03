@@ -17,12 +17,12 @@
     <el-container>
       <el-card>Коротун Василиса Павловна</el-card>
       <el-main>
-        <el-tabs type="border-card">
-          <el-tab-pane><span slot="label" class="el-icon-view"> Финансы</span><finance></finance></el-tab-pane>
-          <el-tab-pane><span slot="label" class="el-icon-document"> Рекламодатели</span>
+        <el-tabs type="border-card" v-model="activeName">
+          <el-tab-pane name="advertisers"><span slot="label" class="el-icon-document"> Рекламодатели</span>
             <advertisers></advertisers>
           </el-tab-pane>
-          <el-tab-pane><span slot="label" class="el-icon-setting"> Система</span>
+          <el-tab-pane name="finance"><span slot="label" class="el-icon-view"> Финансы</span><finance></finance></el-tab-pane>
+          <el-tab-pane name="setting"><span slot="label" class="el-icon-setting"> Система</span>
           <system-activity></system-activity>
           </el-tab-pane>
         </el-tabs>
@@ -38,7 +38,12 @@
   import systemActivity from "../../components/admin/systemActivity";
 
   export default {
-    components: {Finance, advertisers, systemActivity}
+    components: {Finance, advertisers, systemActivity},
+    data() {
+      return {
+        activeName: 'advertisers'
+      };
+    },
   };
 </script>
 

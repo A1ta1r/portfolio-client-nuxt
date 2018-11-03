@@ -10,7 +10,7 @@
         </el-col>
         <el-col>
           <div class="grid-content bg-purple">
-            <nuxt-link to="/secure/advertiser/new">
+            <nuxt-link to="/secure/partner/new">
               <el-button class="el-icon-plus"> Добавить рекламодателя</el-button>
             </nuxt-link>
           </div>
@@ -64,7 +64,7 @@
             <el-button
               size="small"
               class="el-icon-edit"
-              @click="$router.push({name: 'secure-advertiser-edit-id', params: { id:scope.row.id }})" round>
+              @click="$router.push({name: 'secure-partner-edit-id', params: { id:scope.row.id }})" round>
             </el-button>
             <el-popover
               ref="popover"

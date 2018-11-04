@@ -21,12 +21,33 @@
               :default-sort="{prop: 'id', order: 'ascending'}">
       <el-table-column type="expand">
         <template slot-scope="scope">
-          <p>Название: {{scope.row.username}}</p>
-          <p>Голубиная почта: {{scope.row.email}}</p>
-          <p>Состояние: <span v-if="scope.row.isActive">Активен</span>
-            <span v-else>Выключен</span></p>
-          <p>Доход за текущий месяц: {{scope.row.income}}</p>
-          <p>Кумулятивный доход: {{scope.row.totalIncome}}</p>
+          <el-row :gutter="20" type="flex" class="row-bg" justify="space-between">
+            <el-row :span="16">
+              <h3>Реклама от {{ scope.row.username }}</h3>
+            </el-row>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">
+                <nuxt-link to="/secure/partner/promotions/new">
+                  <el-button class="el-icon-plus"> Добавить рекламу</el-button>
+                </nuxt-link>
+              </div>
+            </el-col>
+          </el-row>
+          <el-table :data="advertiser_adv(scope)">
+            <el-table-column label="Идентификатор" prop="id"></el-table-column>
+            <el-table-column label="Создание" prop="createdAt">
+              <template slot-scope="scope">
+                <span>{{formatDate(scope)}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Состояние" prop="IsActive">
+              <template slot-scope="scope">
+                <el-switch v-model="scope.row.IsActive" active-color="#13ce66"></el-switch>
+                <span v-if="scope.row.IsActive"> Активна</span>
+                <span v-else> Выключена</span>
+              </template>
+            </el-table-column>
+          </el-table>
         </template>
       </el-table-column>
 
@@ -96,11 +117,11 @@
       this.$store.dispatch('load_advertisers').then(() => {
         this.loading_show = false
       })
+      this.$store.dispatch('load_adv')
     },
     data() {
       return {
         loading_show: true,
-        delete_advertiser_popover: false,
         searchQuery: "",
         prev: 0,
         next: 0,
@@ -125,10 +146,17 @@
       send_mail: function (value) {
         let email = value.row.email
         window.open(`mailto: ${email}`)
-      }
+      },
+
+      advertiser_adv: function (value) {
+        return this.adv.filter(x => x.advertiserId === value.row.id);
+      },
     },
     computed: {
-      ...mapState(['advertisers']),
+      ...mapState(['advertisers', 'adv']),
+
+
+
       searchResult: function () {
         if (this.searchQuery === undefined || this.searchQuery === "") {
           return this.advertisers

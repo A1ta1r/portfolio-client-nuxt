@@ -27,9 +27,22 @@
             </el-row>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <nuxt-link to="/secure/partner/promotions/new">
-                  <el-button class="el-icon-plus"> Добавить рекламу</el-button>
-                </nuxt-link>
+                <el-button @click="dialogFormVisible = true" class="el-icon-plus"> Добавить рекламу</el-button>
+                <el-dialog title="Добавить рекламу ух" :visible.sync="dialogFormVisible">
+                  <el-form :model="promotion">
+                    <el-form-item label="Название" prop="title">
+                      <el-input v-model="promotion.title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="Рекламодатель" :label-width="formLabelWidth">
+                      <el-input  disabled v-model="scope.row.username"/>
+                    </el-form-item>
+                  </el-form>
+                  <p>Всякие рекламкные баннеры мне кажется нужно вместе с рекламой добавлять пока не знаю</p>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogFormVisible = false" >Не надо</el-button>
+                    <el-button @click="dialogFormVisible = false" type="primary">Все равно не добавится пока никак ))</el-button>
+                  </span>
+                </el-dialog>
               </div>
             </el-col>
           </el-row>
@@ -42,8 +55,8 @@
             </el-table-column>
             <el-table-column label="Состояние" prop="IsActive">
               <template slot-scope="scope">
-                <el-switch v-model="scope.row.IsActive" active-color="#13ce66"></el-switch>
-                <span v-if="scope.row.IsActive"> Активна</span>
+                <el-switch v-model="scope.row.isActive" active-color="#13ce66"></el-switch>
+                <span v-if="scope.row.isActive"> Активна</span>
                 <span v-else> Выключена</span>
               </template>
             </el-table-column>
@@ -112,6 +125,8 @@
 
   export default {
     name: "advertisers",
+    components: {
+    },
     mounted() {
       this.loading_show = true
       this.$store.dispatch('load_advertisers').then(() => {
@@ -121,11 +136,15 @@
     },
     data() {
       return {
+        dialogFormVisible: false,
         loading_show: true,
         searchQuery: "",
         prev: 0,
         next: 0,
         pager: 0,
+        promotion: {
+          title: ''
+        }
       };
     },
     methods: {

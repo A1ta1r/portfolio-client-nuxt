@@ -13,7 +13,7 @@
       <el-form-item label="Пароль" prop="password">
         <el-input v-model="advertiser.password"></el-input>
       </el-form-item>
-      <el-form-item label="Включен" prop="isActive">
+      <el-form-item label="Активен" prop="isActive">
         <el-switch v-model="advertiser.isActive" active-color="#13ce66"></el-switch>
       </el-form-item>
       <el-form-item label="Контактная информация" prop="contactInfo">

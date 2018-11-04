@@ -47,7 +47,7 @@
         rules: {
           username: [
             {required: true, message: 'Пожалуйста, введите название нового рекламодателя', trigger: 'blur'},
-            {min: 3, message: 'Длина имени должна быть больше 3 символов', trigger: 'change'},
+            {min: 3, message: 'Длина имени должна быть больше 3 символов', trigger: ['change', 'blur']},
             {validator: this.usernameValidator, trigger: 'blur'}
           ],
           password: [

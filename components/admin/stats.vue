@@ -18,15 +18,18 @@
       <div>
         <p>Пользователей за выбранный период: {{users_count}}</p>
       </div>
+      <users-chart></users-chart>
     </el-card>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
+  import userChart from './usersChart'
 
   export default {
     name: "stats",
+    components: {userChart},
     data() {
       return {
         date_range: '',

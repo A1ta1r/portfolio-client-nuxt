@@ -46,25 +46,25 @@
           labels: [],
           datasets: [
             {
-              label: "Пинг",
-              data: this.get_data,
+              label: 'Задержка',
+              data: [],
               backgroundColor: [
-                'rgba(64, 158, 225, 45.5)',
+                'rgba(207, 255, 207, 0.5)',
               ],
               borderColor: [
-                'rgba(64, 158, 225,.8)',
+                'rgba(190, 255, 200, 0.9)',
               ],
               borderWidth: 3,
               pointSize: 50,
-            }
-          ],
+            },
+          ]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
           title: {
             display: true,
-            text: "Задержки это плохо прям как в жизни"
+            text: "Задержка сети"
           },
           scales: {
             xAxes: [{
@@ -82,7 +82,7 @@
               },
               ticks: {
                 step: 100,
-                max: 500,
+                max: 700,
                 beginAtZero: true
               }
             },]
@@ -125,7 +125,7 @@
           labels: this.pings.map(x => x.time),
           datasets: [
             {
-              label: 'Ну пинг',
+              label: '',
               data: this.pings.map(x => x.ping),
               backgroundColor: [
                 'rgba(207, 255, 207, 0.5)',
@@ -133,6 +133,8 @@
               borderColor: [
                 'rgba(190, 255, 200, 0.9)',
               ],
+              borderWidth: 3,
+              pointSize: 50,
             },
           ]
         }

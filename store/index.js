@@ -88,7 +88,7 @@ const createStore = () => {
 
       check_server ({ commit }) {
         let startTime = Date.now()
-        return this.$axios.get('health')
+        return this.$axios.get('health', { progress: false })
           .then(status => {
             commit('SET_PING', Date.now() - startTime)
             commit('SET_SERVER_STATUS', status.status)

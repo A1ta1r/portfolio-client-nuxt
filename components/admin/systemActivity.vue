@@ -49,7 +49,7 @@
               label: "Пинг",
               data: this.get_data,
               backgroundColor: [
-                'rgba(64, 158, 225,.5)',
+                'rgba(64, 158, 225, 45.5)',
               ],
               borderColor: [
                 'rgba(64, 158, 225,.8)',
@@ -61,6 +61,7 @@
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           title: {
             display: true,
             text: "Задержки это плохо прям как в жизни"
@@ -70,17 +71,18 @@
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: 'Дата'
+                labelString: 'Время'
               }
             }],
             yAxes: [{
               display: true,
               scaleLabel: {
                 display: true,
-                labelString: 'Ping'
+                labelString: 'Задержка'
               },
               ticks: {
                 step: 100,
+                max: 500,
                 beginAtZero: true
               }
             },]
@@ -124,8 +126,13 @@
           datasets: [
             {
               label: 'Ну пинг',
-              backgroundColor: '#f87979',
-              data: this.pings.map(x => x.ping)
+              data: this.pings.map(x => x.ping),
+              backgroundColor: [
+                'rgba(207, 255, 207, 0.5)',
+              ],
+              borderColor: [
+                'rgba(190, 255, 200, 0.9)',
+              ],
             },
           ]
         }

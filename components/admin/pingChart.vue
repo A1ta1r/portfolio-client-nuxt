@@ -1,8 +1,8 @@
 <script>
-  import { Bar, mixins } from 'vue-chartjs'
+  import { Line, mixins } from 'vue-chartjs'
 
   export default {
-    extends: Bar,
+    extends: Line,
     name: "pingChart",
     mixins: [mixins.reactiveProp],
     props: ['chartdata', 'options'],

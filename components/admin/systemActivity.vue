@@ -23,17 +23,69 @@
           </el-table>
         </el-card>
       </div></el-col>
+      <el-col :span="16"><div class="grid-content bg-purple">
+        <ping-chart class="Chart" :chartData="this.totalData" :options=this.options></ping-chart>
+      </div>
+      </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex';
+  import pingChart from './pingChart'
+
   export default {
+    components: {pingChart},
     data() {
       return {
         pings: [],
-        counts_pings: 6,
+        times: [],
+        counts_pings: 10,
+        totalData: {
+          labels: [],
+          datasets: [
+            {
+              label: "Пинг",
+              data: this.get_data,
+              backgroundColor: [
+                'rgba(64, 158, 225,.5)',
+              ],
+              borderColor: [
+                'rgba(64, 158, 225,.8)',
+              ],
+              borderWidth: 3,
+              pointSize: 50,
+            }
+          ],
+        },
+        options: {
+          responsive: true,
+          title: {
+            display: true,
+            text: "Задержки это плохо прям как в жизни"
+          },
+          scales: {
+            xAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Дата'
+              }
+            }],
+            yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Ping'
+              },
+              ticks: {
+                step: 100,
+                beginAtZero: true
+              }
+            },]
+          }
+        },
       }
     },
     created: function() {
@@ -41,6 +93,7 @@
 
       for (let i = 0; i < this.counts_pings; i++) {
         this.pings.push({ping: 0, time: 0})
+        this.times.push(0);
       }
     },
     mounted () {
@@ -58,10 +111,25 @@
         this.$store.dispatch('check_server')
       },
       push_ping(ping) {
+        let time = new Date(Date.now()).toLocaleTimeString()
         this.pings.push({
-          ping: ping, time: new Date(Date.now()).toLocaleTimeString()
+          ping: ping, time: time
         })
-        if (this.pings.length > this.counts_pings) this.pings.splice(0,1)
+        if (this.pings.length > this.counts_pings) {
+          this.pings.splice(0,1)
+        }
+
+        this.totalData = {
+          labels: this.pings.map(x => x.time),
+          datasets: [
+            {
+              label: 'Ну пинг',
+              backgroundColor: '#f87979',
+              data: this.pings.map(x => x.ping)
+            },
+          ]
+        }
+
       },
       table_row_class({row, rowIndex}) {
         if (row.ping > 700) {

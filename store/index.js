@@ -3,12 +3,14 @@ import Vuex from 'vuex'
 const createStore = () => {
   return new Vuex.Store({
     state: {
+      server_ping: 0,
       advertisers: [],
       banners: [],
       banner_places: [],
       adv: [],
       server_state: true,
-      singleAdvertiser: {}
+      singleAdvertiser: {},
+      users_count: 0
     },
     actions: {
       load_advertisers ({ commit }) {
@@ -85,10 +87,19 @@ const createStore = () => {
       },
 
       check_server ({ commit }) {
+        let startTime = Date.now()
         return this.$axios.get('health')
           .then(status => {
+            commit('SET_PING', Date.now() - startTime)
             commit('SET_SERVER_STATUS', status.status)
           })
+      },
+
+      users_stat({ commit }, date_range) {
+        return this.$axios.post('stats/users/registered', { from: date_range[0], to: date_range[1]})
+          .then(result =>
+            commit('SET_USER_STAT', result.data.count)
+          )
       }
     },
     mutations: {
@@ -113,6 +124,12 @@ const createStore = () => {
       },
       SET_SERVER_STATUS(state, status) {
         state.server_state = status < 400;
+      },
+      SET_PING(state, time) {
+        state.server_ping = time;
+      },
+      SET_USER_STAT(state, count) {
+        state.users_count = count
       }
     }
   })

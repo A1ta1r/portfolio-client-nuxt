@@ -1,42 +1,29 @@
 <template>
   <div>
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>Состояние сервера: <span v-if="server_state">Работает.
-      <span>Задержка до сервера: {{ server_ping }}мс</span>
-    </span>
-      <span v-else>Заболел</span></span>
-        <el-button style="float: right; padding: 3px 0" @click="update_ping" class="el-icon-refresh" type="text"> Обновить</el-button>
-      </div>
-      <el-table :data="pings" :row-class-name="table_row_class">
-        <el-table-column prop="time" label="Время">
-        </el-table-column>
-        <el-table-column prop="ping" label="Задержка">
-          <template slot-scope="scope">
-            <span>{{scope.row.ping+"мс"}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-card>
-    <el-card class="box-card" style="margin-top: 16px">
-      <div slot="header" class="clearfix">
-        <span>Статистика по пользователям</span>
-      </div>
-      <el-date-picker
-        v-model="date_range"
-        type="daterange"
-        align="right"
-        unlink-panels
-        range-separator="По"
-        start-placeholder="Дата начала"
-        end-placeholder="Дата окончания"
-        :picker-options="quickDateRanges">
-      </el-date-picker>
-      <el-button style="float: right; padding: 3px 0" @click="load_users_count" class="el-icon-refresh" type="text"> Обновить</el-button>
-      <div>
-        <p>Пользователей за выбранный период: {{users_count}}</p>
-      </div>
-    </el-card>
+    <el-row :gutter="20">
+      <el-col :span="8"><div class="grid-content bg-purple">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>Состояние сервера: <span v-if="server_state">Работает.
+            <br/>
+              Задержка до сервера: {{ server_ping }}мс
+            </span>
+              <span v-else>Заболел</span>
+            </span>
+            <el-button style="float: right; padding: 3px 0" @click="update_ping" class="el-icon-refresh" type="text"> Обновить</el-button>
+          </div>
+          <el-table show-summary :summary-method="pings_average" :data="pings" :row-class-name="table_row_class" :default-sort="{prop: 'time', order: 'descending'}">
+            <el-table-column prop="time" label="Время" sortable>
+            </el-table-column>
+            <el-table-column prop="ping" label="Задержка" sortable>
+              <template slot-scope="scope">
+                <span>{{scope.row.ping+"мс"}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-card>
+      </div></el-col>
+    </el-row>
   </div>
 </template>
 
@@ -46,50 +33,26 @@
     data() {
       return {
         pings: [],
-        counts_pings: 10,
-        date_range: '',
-        date_from: 0,
-        date_to: 0,
-        quickDateRanges: {
-          shortcuts: [{
-            text: 'Неделя',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Месяц',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-              picker.$emit('pick', [start, end]);
-            }
-          }, {
-            text: 'Три месяца',
-            onClick(picker) {
-              const end = new Date();
-              const start = new Date();
-              start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
-            }
-          }]
-        },
+        counts_pings: 6,
+      }
+    },
+    created: function() {
+      this.$options.interval = setInterval(this.update_ping, 3000)
+
+      for (let i = 0; i < this.counts_pings; i++) {
+        this.pings.push({ping: 0, time: 0})
       }
     },
     mounted () {
       this.$store.dispatch('check_server')
     },
+    beforeDestroy() {
+      clearInterval(this.$options.interval)
+    },
     computed: {
-      ...mapState(['server_state', 'server_ping',  'users_count'])
+      ...mapState(['server_state', 'server_ping'])
     },
     methods: {
-      load_users_count: function() {
-        this.$store.dispatch('users_stat', this.date_range)
-      },
-
       update_ping: function () {
         this.push_ping(this.server_ping)
         this.$store.dispatch('check_server')
@@ -107,6 +70,31 @@
           return 'success-row';
         }
         return 'worthy-row';
+      },
+      pings_average(param) {
+        const { columns, data } = param;
+        const sums = [];
+        let count = 0;
+        let sum = 0;
+        columns.forEach((column, index) => {
+          if (index === 0) {
+            sums[index] = 'Средняя задержка сети';
+            return;
+          }
+          const values = data.map(item => Number(item[column.property]));
+          if (!values.every(value => isNaN(value))) {
+            for(let i = 0; i < values.length; i++) {
+              if (values[i] > 0) {
+                count++
+                sum += values[i]
+              }
+            }
+          } else {
+            sums[index] = 'N/A';
+          }
+        });
+        sums[1] = parseInt(sum / count) + "мс"
+        return sums;
       }
     }
   }

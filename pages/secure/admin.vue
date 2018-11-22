@@ -22,6 +22,7 @@
             <advertisers></advertisers>
           </el-tab-pane>
           <el-tab-pane name="finance"><span slot="label" class="el-icon-view"> Финансы</span><finance></finance></el-tab-pane>
+          <el-tab-pane name="stats"><span slot="label" class="el-icon-star-on"> Статистика по пользователям</span><stats></stats></el-tab-pane>
           <el-tab-pane name="setting"><span slot="label" class="el-icon-setting"> Система</span>
           <system-activity></system-activity>
           </el-tab-pane>
@@ -36,9 +37,10 @@
   import advertisers from "../../components/admin/advertisers";
   import Finance from "../../components/admin/finance";
   import systemActivity from "../../components/admin/systemActivity";
+  import stats from "../../components/admin/stats"
 
   export default {
-    components: {Finance, advertisers, systemActivity},
+    components: {Finance, advertisers, systemActivity, stats},
     data() {
       return {
         activeName: 'advertisers'

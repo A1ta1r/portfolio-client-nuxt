@@ -113,7 +113,7 @@
     methods: {
       load_users_count: function() {
         this.$store.dispatch('users_stat', this.date_range)
-        this.map_chart()
+          .then(this.map_chart())
       },
       map_chart: function () {
         console.log(this.users_count)

@@ -10,7 +10,7 @@ const createStore = () => {
       adv: [],
       server_state: true,
       singleAdvertiser: {},
-      users_count: 0
+      users_count: []
     },
     actions: {
       load_advertisers ({ commit }) {
@@ -96,9 +96,9 @@ const createStore = () => {
       },
 
       users_stat({ commit }, date_range) {
-        return this.$axios.get('/stats/users/registered', { from: date_range[0], to: date_range[1]})
+        return this.$axios.get('/stats/users/active', { from: date_range[0], to: date_range[1]})
           .then(result =>
-            commit('SET_USER_STAT', result.data.count)
+            commit('SET_USER_STAT', result.data.dayCounts)
           )
       }
     },

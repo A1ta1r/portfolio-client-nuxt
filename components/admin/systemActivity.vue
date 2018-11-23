@@ -42,6 +42,7 @@
         pings: [],
         times: [],
         counts_pings: 10,
+        ping_interval: 5000,
         totalData: {
           labels: [],
           datasets: [
@@ -82,7 +83,7 @@
               },
               ticks: {
                 step: 100,
-                max: 700,
+                max: 1500,
                 beginAtZero: true
               }
             },]
@@ -91,7 +92,7 @@
       }
     },
     created: function() {
-      this.$options.interval = setInterval(this.update_ping, 3000)
+      this.$options.interval = setInterval(this.update_ping, this.ping_interval)
 
       for (let i = 0; i < this.counts_pings; i++) {
         this.pings.push({ping: 0, time: 0})

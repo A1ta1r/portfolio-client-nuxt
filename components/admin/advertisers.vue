@@ -27,7 +27,7 @@
             </el-row>
             <el-col :span="6">
               <div class="grid-content bg-purple">
-                <el-button @click="dialogFormVisible = true" class="el-icon-plus"> Добавить рекламу</el-button>
+                <!--<el-button @click="dialogFormVisible = true" class="el-icon-plus"> Добавить рекламу</el-button>-->
                 <el-dialog title="Добавить рекламу ух" :visible.sync="dialogFormVisible">
                   <el-form :model="promotion">
                     <el-form-item label="Название" prop="title">

@@ -104,13 +104,13 @@ const createStore = () => {
           )
       },
 
-      users_deleted({ commit }, date_range) {
+      users_stat_deleted({ commit }, date_range) {
         return this.$axios.get('/stats/users/deleted', { from: date_range[0], to: date_range[1]})
           .then(result =>
           commit('SET_USER_DELETED', result.data.dayCounts))
       },
 
-      users_registered({ commit }, date_range) {
+      users_stat_registered({ commit }, date_range) {
         return this.$axios.get('/stats/users/registered', { from: date_range[0], to: date_range[1]})
           .then(result =>
             commit('SET_USER_REGISTERED', result.data.dayCounts))

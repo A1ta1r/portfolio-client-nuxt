@@ -15,11 +15,11 @@
         :picker-options="quickDateRanges">
       </el-date-picker>
       <el-button style="float: right; padding: 3px 0" @click="load_users_count" class="el-icon-refresh" type="text"> Обновить</el-button>
-      <el-row>
-        <user-chart class="Chart" :chartData="this.totalData" :options=this.options></user-chart>
-      </el-row>
+      <!--<el-row>-->
+        <!--<user-chart class="Chart" :chartData="this.totalData" :options=this.options></user-chart>-->
+      <!--</el-row>-->
       <el-row style="margin-top: 10px;" :gutter="20">
-        <el-col :span="12"><user-chart class="Chart" :chartData="this.totalData_deleted" :options=this.options_deleted></user-chart></el-col>
+        <el-col :span="12"><user-chart class="Chart" :chartData="this.totalData" :options=this.options></user-chart></el-col>
         <el-col :span="12"><user-chart class="Chart" :chartData="this.totalData_registered" :options=this.options_registered></user-chart></el-col>
       </el-row>
     </el-card>
@@ -211,21 +211,26 @@
       this.$store.dispatch('users_registered', this.date_range)
     },
     methods: {
-      load_users_count: function() {
-        this.$store.dispatch('users_stat', this.date_range)
-          .then(this.map_chart())
+      load_users_count() {
         this.load_users_deleted()
         this.load_users_registered()
+        this.load_users_active()
       },
-      map_chart: function () {
+
+      load_users_active() {
+        this.$store.dispatch('users_stat', this.date_range)
+          .then(this.map_chart())
+      },
+
+      map_chart() {
         this.totalData = {
           labels: this.users_count.map(x => new Date(x.date).toLocaleDateString()),
           datasets: [
             {
               label: '',
               data: this.users_count.map(x => x.count),
-              backgroundColor: '#bac0ff',
-              borderColor: '#a0a8ff',
+              backgroundColor: '#409EFF',
+              borderColor: '#409EFF',
               borderWidth: 3,
               pointSize: 50,
             },
@@ -234,18 +239,28 @@
       },
 
       load_users_registered: function () {
-        this.$store.dispatch('users_registered', this.date_range)
+        this.$store.dispatch('users_stat_registered', this.date_range)
           .then(this.map_chart_registered())
       },
-      map_chart_registered: function () {
+      map_chart_registered() {
+        console.log(this.users_registered)
         this.totalData_registered = {
+
           labels: this.users_registered.map(x => new Date(x.date).toLocaleDateString()),
           datasets: [
             {
-              label: '',
+              label: 'Регистрации',
               data: this.users_registered.map(x => x.count),
-              backgroundColor: '#a3ff9a',
-              borderColor: '#6dff82',
+              backgroundColor: '#67C23A',
+              borderColor: '#67C23A',
+              borderWidth: 3,
+              pointSize: 50,
+            },
+            {
+              label: 'Удаления',
+              data: this.users_deleted.map(x => x.count),
+              backgroundColor: '#F56C6C',
+              borderColor: '#F56C6C',
               borderWidth: 3,
               pointSize: 50,
             },
@@ -254,18 +269,18 @@
       },
 
       load_users_deleted: function () {
-        this.$store.dispatch('users_deleted', this.date_range)
+        this.$store.dispatch('users_stat_deleted', this.date_range)
           .then(this.map_chart_deleted())
       },
-      map_chart_deleted: function () {
+      map_chart_deleted()    {
         this.totalData_deleted = {
           labels: this.users_deleted.map(x => new Date(x.date).toLocaleDateString()),
           datasets: [
             {
               label: '',
               data: this.users_deleted.map(x => x.count),
-              backgroundColor: '#ffaea1',
-              borderColor: '#ff8c85',
+              backgroundColor: '#F56C6C',
+              borderColor: '#F56C6C',
               borderWidth: 3,
               pointSize: 50,
             },

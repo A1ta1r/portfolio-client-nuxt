@@ -203,12 +203,13 @@
       }
     },
     computed: {
-      ...mapState(['users_count', 'users_registered', 'users_deleted'])
+      ...mapState(['users_count', 'users_registered', 'users_deleted']),
     },
     mounted () {
       this.$store.dispatch('users_stat', this.date_range)
-      this.$store.dispatch('users_deleted', this.date_range)
-      this.$store.dispatch('users_registered', this.date_range)
+        .then(console.log(this.users_count))
+      this.$store.dispatch('users_stat_deleted', this.date_range)
+      this.$store.dispatch('users_stat_registered', this.date_range)
     },
     methods: {
       load_users_count() {
@@ -218,7 +219,7 @@
       },
 
       load_users_active() {
-        this.$store.dispatch('users_stat', this.date_range)
+        return this.$store.dispatch('users_stat', this.date_range)
           .then(this.map_chart())
       },
 
@@ -239,11 +240,10 @@
       },
 
       load_users_registered: function () {
-        this.$store.dispatch('users_stat_registered', this.date_range)
+        return this.$store.dispatch('users_stat_registered', this.date_range)
           .then(this.map_chart_registered())
       },
       map_chart_registered() {
-        console.log(this.users_registered)
         this.totalData_registered = {
 
           labels: this.users_registered.map(x => new Date(x.date).toLocaleDateString()),
@@ -269,25 +269,8 @@
       },
 
       load_users_deleted: function () {
-        this.$store.dispatch('users_stat_deleted', this.date_range)
-          .then(this.map_chart_deleted())
+        return this.$store.dispatch('users_stat_deleted', this.date_range)
       },
-      map_chart_deleted()    {
-        this.totalData_deleted = {
-          labels: this.users_deleted.map(x => new Date(x.date).toLocaleDateString()),
-          datasets: [
-            {
-              label: '',
-              data: this.users_deleted.map(x => x.count),
-              backgroundColor: '#F56C6C',
-              borderColor: '#F56C6C',
-              borderWidth: 3,
-              pointSize: 50,
-            },
-          ]
-        }
-      },
-
     }
   }
 </script>

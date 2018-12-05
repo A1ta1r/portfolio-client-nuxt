@@ -10,7 +10,9 @@ const createStore = () => {
       adv: [],
       server_state: true,
       singleAdvertiser: {},
-      users_count: []
+      users_count: [],
+      users_registered: [],
+      users_deleted: [],
     },
     actions: {
       load_advertisers ({ commit }) {
@@ -100,6 +102,18 @@ const createStore = () => {
           .then(result =>
             commit('SET_USER_STAT', result.data.dayCounts)
           )
+      },
+
+      users_deleted({ commit }, date_range) {
+        return this.$axios.get('/stats/users/deleted', { from: date_range[0], to: date_range[1]})
+          .then(result =>
+          commit('SET_USER_DELETED', result.data.dayCounts))
+      },
+
+      users_registered({ commit }, date_range) {
+        return this.$axios.get('/stats/users/registered', { from: date_range[0], to: date_range[1]})
+          .then(result =>
+            commit('SET_USER_REGISTERED', result.data.dayCounts))
       }
     },
     mutations: {
@@ -119,7 +133,6 @@ const createStore = () => {
         state.advertisers.filter(x => x.id === ads.advertiserId).ads = ads
       },
       SET_ADV (state, adv) {
-
         state.adv = adv
       },
       SET_SERVER_STATUS(state, status) {
@@ -130,6 +143,12 @@ const createStore = () => {
       },
       SET_USER_STAT(state, count) {
         state.users_count = count
+      },
+      SET_USER_DELETED(state, count) {
+        state.users_deleted = count
+      },
+      SET_USER_REGISTERED(state, count) {
+        state.users_registered = count
       }
     }
   })

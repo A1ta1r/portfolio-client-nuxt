@@ -15,7 +15,13 @@
         :picker-options="quickDateRanges">
       </el-date-picker>
       <el-button style="float: right; padding: 3px 0" @click="load_users_count" class="el-icon-refresh" type="text"> Обновить</el-button>
-      <user-chart class="Chart" :chartData="this.totalData" :options=this.options></user-chart>
+      <!--<el-row>-->
+        <!--<user-chart class="Chart" :chartData="this.totalData" :options=this.options></user-chart>-->
+      <!--</el-row>-->
+      <el-row style="margin-top: 10px;" :gutter="20">
+        <el-col :span="12"><user-chart class="Chart" :chartData="this.totalData" :options=this.options></user-chart></el-col>
+        <el-col :span="12"><user-chart class="Chart" :chartData="this.totalData_registered" :options=this.options_registered></user-chart></el-col>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -99,7 +105,96 @@
               },
               ticks: {
                 step: 1,
-                max: 10,
+                beginAtZero: true
+              }
+            },]
+          }
+        },
+        totalData_deleted: {
+          labels: [],
+          datasets: [
+            {
+              label: 'Задержка',
+              data: [],
+              backgroundColor: [
+                'rgba(207, 255, 207, 0.5)',
+              ],
+              borderColor: [
+                'rgba(190, 255, 200, 0.9)',
+              ],
+              borderWidth: 3,
+              pointSize: 50,
+            },
+          ]
+        },
+        options_deleted: {
+          responsive: true,
+          maintainAspectRatio: false,
+          title: {
+            display: true,
+            text: "Удаленные пользователи"
+          },
+          scales: {
+            xAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Дата'
+              }
+            }],
+            yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Количество удаленных пользователей'
+              },
+              ticks: {
+                step: 1,
+                beginAtZero: true
+              }
+            },]
+          }
+        },
+        totalData_registered: {
+          labels: [],
+          datasets: [
+            {
+              label: 'Задержка',
+              data: [],
+              backgroundColor: [
+                'rgba(207, 255, 207, 0.5)',
+              ],
+              borderColor: [
+                'rgba(190, 255, 200, 0.9)',
+              ],
+              borderWidth: 3,
+              pointSize: 50,
+            },
+          ]
+        },
+        options_registered: {
+          responsive: true,
+          maintainAspectRatio: false,
+          title: {
+            display: true,
+            text: "Всего зарегистрированно пользователей"
+          },
+          scales: {
+            xAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Дата'
+              }
+            }],
+            yAxes: [{
+              display: true,
+              scaleLabel: {
+                display: true,
+                labelString: 'Количество зарегистрированных пользователей'
+              },
+              ticks: {
+                step: 1,
                 beginAtZero: true
               }
             },]
@@ -108,29 +203,74 @@
       }
     },
     computed: {
-      ...mapState(['users_count'])
+      ...mapState(['users_count', 'users_registered', 'users_deleted']),
+    },
+    mounted () {
+      this.$store.dispatch('users_stat', this.date_range)
+        .then(console.log(this.users_count))
+      this.$store.dispatch('users_stat_deleted', this.date_range)
+      this.$store.dispatch('users_stat_registered', this.date_range)
     },
     methods: {
-      load_users_count: function() {
-        this.$store.dispatch('users_stat', this.date_range)
+      load_users_count() {
+        this.load_users_deleted()
+        this.load_users_registered()
+        this.load_users_active()
+      },
+
+      load_users_active() {
+        return this.$store.dispatch('users_stat', this.date_range)
           .then(this.map_chart())
       },
-      map_chart: function () {
-        console.log(this.users_count)
+
+      map_chart() {
         this.totalData = {
           labels: this.users_count.map(x => new Date(x.date).toLocaleDateString()),
           datasets: [
             {
               label: '',
               data: this.users_count.map(x => x.count),
-              backgroundColor: '#e4ffc8',
-              borderColor: '#c1ffbf',
+              backgroundColor: '#409EFF',
+              borderColor: '#409EFF',
               borderWidth: 3,
               pointSize: 50,
             },
           ]
         }
-      }
+      },
+
+      load_users_registered: function () {
+        return this.$store.dispatch('users_stat_registered', this.date_range)
+          .then(this.map_chart_registered())
+      },
+      map_chart_registered() {
+        this.totalData_registered = {
+
+          labels: this.users_registered.map(x => new Date(x.date).toLocaleDateString()),
+          datasets: [
+            {
+              label: 'Регистрации',
+              data: this.users_registered.map(x => x.count),
+              backgroundColor: '#67C23A',
+              borderColor: '#67C23A',
+              borderWidth: 3,
+              pointSize: 50,
+            },
+            {
+              label: 'Удаления',
+              data: this.users_deleted.map(x => x.count),
+              backgroundColor: '#F56C6C',
+              borderColor: '#F56C6C',
+              borderWidth: 3,
+              pointSize: 50,
+            },
+          ]
+        }
+      },
+
+      load_users_deleted: function () {
+        return this.$store.dispatch('users_stat_deleted', this.date_range)
+      },
     }
   }
 </script>

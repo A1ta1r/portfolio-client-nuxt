@@ -2,32 +2,38 @@ module.exports = {
   /*
    ** Headers of the page
    */
+  router: {
+    base: '/credits/' || ''
+  },
   head: {
-    title: 'Кредитный портфель',
-    meta: [{
-      charset: 'utf-8'
-    },
+    title: "Кредитный портфель",
+    meta: [
       {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        charset: "utf-8"
       },
       {
-        hid: 'description',
-        name: 'description',
+        name: "viewport",
+        content: "width=device-width, initial-scale=1"
+      },
+      {
+        hid: "description",
+        name: "description",
         content: 'Веб-приложение "Кредитный Портфель"'
       }
     ],
-    link: [{
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/Loan-Icon.png'
-    }]
+    link: [
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/Loan-Icon.png"
+      }
+    ]
   },
   /*
    ** Customize the progress bar color
    */
   loading: {
-    color: '#3B8070'
+    color: "#3B8070"
   },
   /*
    ** Build configuration
@@ -36,47 +42,32 @@ module.exports = {
     /*
      ** Run ESLint on save
      */
-    extend(config, {
-      isDev,
-      isClient
-    }) {
+    extend(config, {isDev, isClient}) {
       if (isDev && isClient) {
         config.module.rules.push({
-          enforce: 'pre',
+          enforce: "pre",
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
+          loader: "eslint-loader",
           exclude: /(node_modules)/
         });
       }
-    },
+    }
   },
 
-  vendor: [
-    'element-ui',
-    'vue-chartjs.js',
-    'axios'
-  ],
+  vendor: ["element-ui", "vue-chartjs.js", "axios"],
 
-  modules: [
-    '@nuxtjs/axios',
-    ['@nuxtjs/moment', ['ru']]
-  ],
+  modules: ["@nuxtjs/axios", ["@nuxtjs/moment", ["ru"]]],
 
   /*
-  ** Axios
-  */
+   ** Axios
+   */
   axios: {
-    baseURL: 'https://loan-portfolio-api.herokuapp.com/'
+    baseURL: process.env.CREDIT_API_URL || "https://loan-portfolio-api.herokuapp.com/"
   },
 
   /*
    ** Configure plugins
    */
-  plugins: [
-    'plugins/element-ui.js',
-    'plugins/vue-chartjs.js',
-  ],
-  css: [
-    'element-ui/lib/theme-chalk/index.css'
-  ],
+  plugins: ["plugins/element-ui.js", "plugins/vue-chartjs.js"],
+  css: ["element-ui/lib/theme-chalk/index.css"]
 };

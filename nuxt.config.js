@@ -2,9 +2,6 @@ module.exports = {
   /*
    ** Headers of the page
    */
-  router: {
-    base: '/credits/' || ''
-  },
   head: {
     title: "Кредитный портфель",
     meta: [

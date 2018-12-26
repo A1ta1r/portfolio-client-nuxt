@@ -3,10 +3,10 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-const _35d53ab0 = () => import('..\\pages\\secure\\admin.vue' /* webpackChunkName: "pages_secure_admin" */).then(m => m.default || m)
-const _5908e4e2 = () => import('..\\pages\\secure\\partner\\new.vue' /* webpackChunkName: "pages_secure_partner_new" */).then(m => m.default || m)
-const _29a445c2 = () => import('..\\pages\\secure\\partner\\edit\\_id.vue' /* webpackChunkName: "pages_secure_partner_edit__id" */).then(m => m.default || m)
-const _03989e02 = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
+const _bbc8be34 = () => import('..\\pages\\secure\\admin.vue' /* webpackChunkName: "pages_secure_admin" */).then(m => m.default || m)
+const _351c6d91 = () => import('..\\pages\\secure\\partner\\new.vue' /* webpackChunkName: "pages_secure_partner_new" */).then(m => m.default || m)
+const _727333a1 = () => import('..\\pages\\secure\\partner\\edit\\_id.vue' /* webpackChunkName: "pages_secure_partner_edit__id" */).then(m => m.default || m)
+const _3f27fa40 = () => import('..\\pages\\index.vue' /* webpackChunkName: "pages_index" */).then(m => m.default || m)
 
 
 
@@ -61,29 +61,29 @@ const scrollBehavior = function (to, from, savedPosition) {
 export function createRouter () {
   return new Router({
     mode: 'history',
-    base: '/credits/',
+    base: '/',
     linkActiveClass: 'nuxt-link-active',
     linkExactActiveClass: 'nuxt-link-exact-active',
     scrollBehavior,
     routes: [
 		{
 			path: "/secure/admin",
-			component: _35d53ab0,
+			component: _bbc8be34,
 			name: "secure-admin"
 		},
 		{
 			path: "/secure/partner/new",
-			component: _5908e4e2,
+			component: _351c6d91,
 			name: "secure-partner-new"
 		},
 		{
 			path: "/secure/partner/edit/:id?",
-			component: _29a445c2,
+			component: _727333a1,
 			name: "secure-partner-edit-id"
 		},
 		{
 			path: "/",
-			component: _03989e02,
+			component: _3f27fa40,
 			name: "index"
 		}
     ],

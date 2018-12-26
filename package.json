@@ -4,7 +4,6 @@
   "description": "Credit Portfolio SPA",
   "author": "Mikhail Sergeev <ima1ta1r@yandex.ru>",
   "private": true,
-  "bin": "starter.js",
   "scripts": {
     "analyze": "nuxt build -a",
     "dev": "nuxt",
@@ -13,8 +12,7 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
-    "heroku-postbuild": "npm run build",
-    "package": "pkg . --target node10-win --out-path pkg/"
+    "heroku-postbuild": "npm run build"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.1",
@@ -24,7 +22,8 @@
     "element-ui": "^2.4.*",
     "npm": "^6.4.1",
     "nuxt": "^1.*.*",
-    "vue-chartjs": "^3.4.0"
+    "vue-chartjs": "^3.4.0",
+    "express": "latest"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
